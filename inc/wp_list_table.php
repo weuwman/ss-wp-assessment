@@ -1,6 +1,6 @@
 <?php
 /**
- * Boatdeck_Package_Pricing_List_Table
+ * Custom List Table Class
  */
 if (!class_exists('WP_List_Table')) {
     require_once(ABSPATH . 'wp-admin/includes/class-wp-list-table.php');
@@ -43,7 +43,7 @@ class MyCF_List_Table extends WP_List_Table
     // {
     //     return '<a href="'.get_admin_url(get_current_blog_id()).'admin.php?page=bd-ppt-edit-addon&id='.$item['id'].'">' . $item['name'] . '</a>';
     // }
-    
+
     /**
      * [REQUIRED] this is how checkbox column renders
      *
@@ -112,7 +112,7 @@ class MyCF_List_Table extends WP_List_Table
     function process_bulk_action()
     {
         global $wpdb;
-        $table = 'mycf_data'; 
+        $table = 'mycf_data';
         if ('delete' === $this->current_action()) {
             $ids = isset($_REQUEST['id']) ? $_REQUEST['id'] : array();
             if (is_array($ids)) $ids = implode(',', $ids);

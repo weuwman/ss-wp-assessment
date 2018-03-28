@@ -5,11 +5,11 @@
  */
 /*
 Plugin Name: My Contact Form
-Plugin URI: https://softwareseni.com
+Plugin URI: https://softwareseni.co.id
 Description: For SS WP Assessment
 Author: Muhammad Arif
 Version: 1.0
-Author URI: https://softwareseni.com
+Author URI: https://softwareseni.co.id
 */
 
 //Import classes
@@ -43,7 +43,7 @@ function mycf_add_options_page(){
 }
 add_action('admin_menu', 'mycf_add_options_page');
 
-//Show All Packages
+//Show All Packages in dashboard page
 function mycf_get_all_data()
 {
     global $wpdb;
@@ -70,16 +70,28 @@ function mycf_get_all_data()
 	<?php
 }
 
-
+//fucntion for processing the form submitted by user
+// method GET
 function mycf_process_form(){
-		if(isset($_GET['process_form']))
+	if(isset($_GET['process_form']))
 	{
 
-		$name 		= $_GET['name'];
-		$email 		= $_GET['email'];
-		$message	= $_GET['message'];
+    $name = "";
+    $email = "";
+    $message = "";
 
-		if($name && $email)
+    if(isset($_GET['name'])){
+      $name 		= $_GET['name'];
+    }
+    if(isset($_GET['emai;'])){
+      $email 		= $_GET['email'];
+    }
+    if(isset($_GET['message'])){
+      $message	= $_GET['message'];
+    }
+
+
+		if($name != "" && $email != "")
 		{
 			$data = array(
 				"name"				=> $name,
@@ -132,7 +144,8 @@ function mycf_process_form(){
 				$body .= $message.$eol;
 
 				//send message
-				mail($to, $subject, $body, $headers);
+				// mail($to, $subject, $body, $headers);
+        wp_mail( $to, $subject, $body, $headers);
 			}
 		}
 		$issave = false;
@@ -140,7 +153,7 @@ function mycf_process_form(){
 }
 add_action('init','mycf_process_form');
 
-
+//shortcode function
 function mycf_form_display( $atts )
 {
 	global $wp, $wpdb, $table_prefix;
@@ -152,15 +165,15 @@ function mycf_form_display( $atts )
 		</div>
 		<hr>
 		<div class="mycf_form_content">
-			<?php 
+			<?php
 			if($issave){
 				echo '<div class="alert">Thanks for contacting us.</div>';
-			} 
+			}
 			?>
 			<form action="<?php echo home_url( $wp->request ); ?>/?process_form" method="get">
 				<label>Name:</label>
 				<input type="text" name="name" placeholder="Name" required="true"><br/>
-				<label>Email:</label> 
+				<label>Email:</label>
 				<input type="email" name="email" placeholder="Email" required="true"><br/>
 				<label>Message:</label>
 				<textarea name="message" placeholder="Please enter your message here" required="true"></textarea><br/>
@@ -171,3 +184,4 @@ function mycf_form_display( $atts )
 	<?php
 }
 add_shortcode( 'mycf_display_form', 'mycf_form_display' );
+//end shortcode function

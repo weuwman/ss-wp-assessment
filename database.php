@@ -1,5 +1,9 @@
 <?php
-	//global $wpdb;
+
+	/*
+	* This file is for generating database table when plugin activated.
+	*/
+
 	require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
 	//table prefix
@@ -16,7 +20,7 @@
 				  created int(10) unsigned NOT NULL,
 				  updated int(10) unsigned NOT NULL,
 				  PRIMARY KEY  (id)
-				) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;";	
+				) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;";
 
 	foreach ($sqldb as $tabledb)
 	{
